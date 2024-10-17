@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/cozinha")
@@ -31,6 +32,18 @@ public class CozinhaController {
     public ResponseEntity<List<Cozinha>> listarPedidos() {
         List<Cozinha> pedidos = cozinhaRepository.findAll();
         return ResponseEntity.ok(pedidos);
+    }
+
+    // Endpoint para deletar um pedido pelo ID (DELETE)
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarPedido(@PathVariable Long id) {
+        Optional<Cozinha> pedidoExistente = cozinhaRepository.findById(id);
+        if (pedidoExistente.isPresent()) {
+            cozinhaRepository.deleteById(id);
+            return ResponseEntity.noContent().build();  // 204 No Content
+        } else {
+            return ResponseEntity.notFound().build();  // 404 Not Found
+        }
     }
 }
 

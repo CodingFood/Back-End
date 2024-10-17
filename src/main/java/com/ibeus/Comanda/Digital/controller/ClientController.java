@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/clientes")
@@ -31,5 +32,17 @@ public class ClientController {
     public ResponseEntity<List<Client>> listarClientes() {
         List<Client> clientes = clientRepository.findAll();
         return ResponseEntity.ok(clientes);
+    }
+
+    // Endpoint para deletar um cliente pelo ID (DELETE)
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarCliente(@PathVariable Long id) {
+        Optional<Client> clienteExistente = clientRepository.findById(id);
+        if (clienteExistente.isPresent()) {
+            clientRepository.deleteById(id);
+            return ResponseEntity.noContent().build();  // 204 No Content
+        } else {
+            return ResponseEntity.notFound().build();  // 404 Not Found
+        }
     }
 }
