@@ -1,56 +1,51 @@
 package com.ibeus.Comanda.Digital.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
-// Atributos
+@Entity
 public class Pedido {
-    private int id;
-    private String itens;
-    private float valor;
-    private int identificacao;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    //Métodos Construtor
-    public Pedido(int id, String itens, float valor, int identificacao) {
-        this.id = id;
-        this.itens = itens;
+    private String descricao;  // Exemplo de atributo
+    private double valor;      // Exemplo de atributo
+
+    // Construtor padrão
+    public Pedido() {
+    }
+
+    // Construtor com parâmetros
+    public Pedido(String descricao, double valor) {
+        this.descricao = descricao;
         this.valor = valor;
-        this.identificacao = identificacao;
     }
 
-    //  outros métodos
-
-    public void enviarEntregador(){
-
-    }
-
-    public int getId() {
+    // Getters e Setters
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getItens() {
-        return itens;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setItens(String itens) {
-        this.itens = itens;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
-    public float getValor() {
+    public double getValor() {
         return valor;
     }
 
-    public void setValor(float valor) {
+    public void setValor(double valor) {
         this.valor = valor;
-    }
-
-    public int getIdentificacao() {
-        return identificacao;
-    }
-
-    public void setIdentificacao(int identificacao) {
-        this.identificacao = identificacao;
     }
 }

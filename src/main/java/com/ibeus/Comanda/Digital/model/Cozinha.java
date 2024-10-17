@@ -10,13 +10,13 @@ import jakarta.persistence.Column;
 public class Cozinha {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // ID gerado automaticamente
     private Long id;
 
     @Column(nullable = false)
     private String nome;
 
-    // Getters and Setters
+    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -33,6 +33,5 @@ public class Cozinha {
         this.nome = nome;
     }
 }
-
 
 

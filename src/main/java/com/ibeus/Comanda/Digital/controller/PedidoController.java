@@ -1,72 +1,53 @@
 package com.ibeus.Comanda.Digital.controller;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ibeus.Comanda.Digital.model.Pedido;
+import com.ibeus.Comanda.Digital.repository.PedidoRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.ibeus.Comanda.Digital.model.Dish;
-import com.ibeus.Comanda.Digital.service.DishService;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/dishes")
-@CrossOrigin(origins = "http://localhost:4200")
-// Atributos
+@RequestMapping("/api/pedidos")
+@CrossOrigin(origins = "http://localhost:4200") // Permitindo requisições do Angular
 public class PedidoController {
-    private int id;
-    private String itens;
-    private float valor;
-    private int identificacao;
 
-    //Métodos Construtor
-    public PedidoController(){
+    private final PedidoRepository pedidoRepository;
 
+    // Construtor com a injeção correta
+    public PedidoController(PedidoRepository pedidoRepository) {
+        this.pedidoRepository = pedidoRepository;
     }
 
-
-    public PedidoController(int id, String itens, float valor, int identificacao) {
-        this.id = id;
-        this.itens = itens;
-        this.valor = valor;
-        this.identificacao = identificacao;
+    // Endpoint para cadastrar um novo pedido (POST)
+    @PostMapping
+    public ResponseEntity<Pedido> cadastrarPedido(@RequestBody Pedido pedido) {
+        Pedido novoPedido = pedidoRepository.save(pedido);
+        return ResponseEntity.ok(novoPedido);
     }
 
-    //  outros métodos
-
-    public void enviarEntregador(){
-
+    // Endpoint para listar todos os pedidos (GET)
+    @GetMapping
+    public ResponseEntity<List<Pedido>> listarPedidos() {
+        List<Pedido> pedidos = pedidoRepository.findAll();
+        return ResponseEntity.ok(pedidos);
     }
 
-    public int getId() {
-        return id;
+    // Endpoint para buscar um pedido por ID (GET)
+    @GetMapping("/{id}")
+    public ResponseEntity<Pedido> buscarPedido(@PathVariable Long id) {
+        return pedidoRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getItens() {
-        return itens;
-    }
-
-    public void setItens(String itens) {
-        this.itens = itens;
-    }
-
-    public float getValor() {
-        return valor;
-    }
-
-    public void setValor(float valor) {
-        this.valor = valor;
-    }
-
-    public int getIdentificacao() {
-        return identificacao;
-    }
-
-    public void setIdentificacao(int identificacao) {
-        this.identificacao = identificacao;
+    // Endpoint para deletar um pedido (DELETE)
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarPedido(@PathVariable Long id) {
+        if (pedidoRepository.existsById(id)) {
+            pedidoRepository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }
