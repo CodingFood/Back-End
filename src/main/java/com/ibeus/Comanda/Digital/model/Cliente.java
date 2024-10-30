@@ -16,4 +16,3 @@ public class Cliente {
 
     private String endereco;  // Adicionando o campo de endereço
 }
-

@@ -4,13 +4,16 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name = "cozinhas")
+@Table(name = "entregadores")
 @Data
-public class Cozinha {
+public class Entregador {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String tipo; // Exemplo: Italiana, Japonesa, Brasileira
+    private String nome;
+
+    private String placaVeiculo;
 }
+
